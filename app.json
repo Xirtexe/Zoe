@@ -1,0 +1,98 @@
+{
+  "name": " Zoe - Xd ",
+  "version": "1.0.1",
+  "description": "Zoe-XD Multi Device WhatsApp Bot",
+  "logo": "https://files.catbox.moe/zwnnx6.png",
+  "keywords": ["whatsapp", "bot", "zoe-xd"],
+  "repository": "https://github.com/Xirtexe/Zoe",
+  "website": "https://github.com/Xirtexe/Zoe",
+  "success_url": "/",
+  "stack": "container",
+  "env": {
+    "HANDLER": {
+      "description": "handler for bot. all so can be null or false",
+      "required": true,
+      "value": "null"
+    },
+    "HEROKU_APP_NAME": {
+      "description": "heroku app name, same as above entered",
+      "required": true,
+      "value": ""
+    },
+    "HEROKU_API_KEY": {
+      "description": "Heroku account api key, https://dashboard.heroku.com/account",
+      "required": true,
+      "value": ""
+    },
+    "MODE": {
+      "description": "worker type public or private",
+      "required": true,
+      "value": "private"
+    },
+    "ERROR_MSG": {
+      "description": "Enable or disable error messages",
+      "required": false,
+      "value": "false"
+    },
+    "LOG_MSG": {
+      "description": "Enable or disable log messages",
+      "required": false,
+      "value": "false"
+    },
+    "READ_CMD": {
+      "description": "Read all commands",
+      "required": false,
+      "value": "false"
+    },
+    "READ_MSG": {
+      "description": "Read all messages",
+      "required": false,
+      "value": "false"
+    },
+    "ANTI_DELETE": {
+      "description": "to get deleted messages",
+      "required": true,
+      "value": "false"
+    },
+    "WARN_COUNT": {
+      "description": "warn a count",
+      "required": true,
+      "value": "3"
+    },
+    "BOT_INFO": {
+      "description": "Bot name and logo",
+      "required": false,
+      "value": " Team - Xd ;https://files.catbox.moe/zwnnx6.png"
+    },
+    "AUDIO_DATA": {
+      "description": "Audio watermark data",
+      "required": false,
+      "value": " Zoe - Xd ; Badan - Ser ;https://files.catbox.moe/zwnnx6.png"
+    },
+    "STICKER_PACKDATA": {
+      "description": "Sticker pack metadata",
+      "required": false,
+      "value": " Zoe - Xd ; Badan - Ser "
+    },
+    "SUDO": {
+      "description": "owner number(s) of the bot",
+      "required": false,
+      "value": "919747257996,919037780075"
+    },
+    "SESSION": {
+      "description": "session id",
+      "required": true,
+      "value": "Zoe-XD^baqdg3_badan"
+    },
+    "LANGUAGE": {
+      "description": "Language for bot responses",
+      "required": false,
+      "value": "english"
+    }
+  },
+  "addons": [{ "plan": "heroku-postgresql" }],
+  "buildpacks": [
+    { "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" },
+    { "url": "https://github.com/carlosdommor/heroku-buildpack-ffmpeg-latest" }
+  ]
+}

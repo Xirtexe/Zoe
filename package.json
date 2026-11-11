@@ -1,0 +1,36 @@
+{
+  "name": "zoexd-bot",
+  "version": "1.0.1",
+  "description": "A multi-device WhatsApp bot built with Node.js.",
+  "main": "index.js",
+  "scripts": {
+    "start": "pm2 start . --attach --name zoe",
+    "stop": "pm2 stop zoe && pm2 delete zoe",
+    "restart": "pm2 restart zoe",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shahid",
+  "license": "ISC",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "badan-ser": "^1.0.5",
+    "better-sqlite3": "^12.6.2",
+    "browser-id3-writer": "^4.4.0",
+    "cheerio": "^1.0.0-rc.10",
+    "dotenv": "^16.3.1",
+    "express": "latest",
+    "fluent-ffmpeg": "^2.1.2",
+    "form-data": "^4.0.6",
+    "link-preview-js": "^3.0.4",
+    "node-webpmux": "^3.1.7",
+    "pdfkit": "^0.20.2",
+    "pm2": "^6.0.14",
+    "sequelize": "^6.37.3",
+    "sharp": "^0.32.6",
+    "simple-git": "^3.7.1",
+    "sqlite3": "^6.0.1"
+  },
+  "optionalDependencies": {
+    "ffmpeg-static": "^5.3.0"
+  }
+}

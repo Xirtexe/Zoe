@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: zoe-xd
+    repo: https://github.com/Xirtexe/Zoe.git
+    branch: main
+    plan: free
+    runtime: node
+    buildCommand: npm install --include=dev && npm rebuild sqlite3 --build-from-source
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RENDER_APP_NAME
+        sync: false
+        required: true
+      - key: RENDER_API
+        sync: false
+        required: true
+      - key: SESSION
+        sync: false
+        required: true
+      - key: SUDO
+        sync: false
+      - key: HANDLER
+        sync: false
+      - key: MODE
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+        required: true
