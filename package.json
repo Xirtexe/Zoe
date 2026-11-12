@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@whiskeysockets/baileys": "^7.0.0-rc14",
+    "axios": "^1.21.1",
     "badan-ser": "^1.0.5",
     "better-sqlite3": "^12.6.2",
     "browser-id3-writer": "^4.4.0",
