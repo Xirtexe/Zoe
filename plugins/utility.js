@@ -1,4 +1,4 @@
-const { delay } = require("@whiskeysockets/baileys");
+const { jidNormalizedUser } = require("@whiskeysockets/baileys");
 const { Zoe, mode, Message, parsedJid } = require("../lib/Index");
 const { dbController } = require("../lib/database");
 const { getString } = require("./func/lang");
@@ -72,6 +72,7 @@ Zoe({
   }
 });
 
+
 Zoe({
   pattern: "whois",
   fromMe: mode,
@@ -80,16 +81,18 @@ Zoe({
 }, async (m, text) => {
   const { client, reply_message, isGroup, jid } = m;
   const num = text?.trim()?.replace(/\D/g, "");
-  const target = num ? num + "@s.whatsapp.net" : reply_message?.sender;
+  const target = jidNormalizedUser(num ? num + "@s.whatsapp.net" : reply_message?.sender);
   if (!target) return client.sendMessage(jid, { text: isGroup ? lang.RPN_ALERT : lang.NUF_ALERT });
   try {
-    const [name, statusData, jidd] = await Promise.all([client.store.getName(target), client.fetchStatus(target), client.signalRepository.lidMapping.getPNForLID(target)]);
-    const exist = jidd?.replace(/:.+@/, '@');
-    const { status: { status, setAt } } = statusData[0] || {};
+    const [name, statusData, lidMapping] = await Promise.all([client.store.getName(target), client.fetchStatus(target), client.signalRepository.lidMapping.getLIDForPN(target)]);
+    const lid = lidMapping ? jidNormalizedUser(lidMapping) : null;
+    const pnMapping = lid ? await client.signalRepository.lidMapping.getPNForLID(lid) : null;
+    const exist = pnMapping ? jidNormalizedUser(pnMapping) : target;
+    const { status, setAt } = statusData?.[0]?.status || {};
     const setDate = setAt ? new Date(setAt).toLocaleString() : "Unknown";
-    const wpno = exist.match(/\d+/)?.[0];
-    const url = await client.profilePictureUrl(target, "image").catch(() => "https://files.catbox.moe/2fguma.png");
-    const caption = `╭╺╺╺╡ 𝗨𝘀𝗲𝗿 𝗗𝗲𝘁𝗮𝗶𝗹𝘀\n\n 𝗡𝗮𝗺𝗲: _${name || "Not found"}_\n 𝗕𝗶𝗼: _${status || "Not set"}_\n 𝗕𝗶𝗼 𝗦𝗲𝘁 𝗔𝘁: _${setDate}_\n 𝗨𝘀𝗲𝗿 𝗟𝗶𝗱: _${target || "Unknown"}_\n 𝗨𝘀𝗲𝗿 𝗝𝗶𝗱: _${exist}_\n 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽: https://wa.me/${wpno}\n\n╰╺╺╺╺╺╺╺╡`;
+    const wpno = exist?.match(/\d+/)?.[0];
+    const url = await client.profilePictureUrl(lid || target, "image").catch(() => "https://files.catbox.moe/2fguma.png");
+    const caption = `╭╺╺╺╡ 𝗨𝘀𝗲𝗿 𝗗𝗲𝘁𝗮𝗶𝗹𝘀\n\n 𝗡𝗮𝗺𝗲: _${name || "Not found"}_\n 𝗕𝗶𝗼: _${status?.trim() || "Not set"}_\n 𝗕𝗶𝗼 𝗦𝗲𝘁 𝗔𝘁: _${setDate}_\n 𝗨𝘀𝗲𝗿 𝗟𝗶𝗱: _${lid || "Unknown"}_\n 𝗨𝘀𝗲𝗿 𝗝𝗶𝗱: _${exist}_\n 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽: ${wpno ? `https://wa.me/${wpno}` : "Unknown"}\n\n╰╺╺╺╺╺╺╺╡`;
     return client.sendMessage(jid, { image: { url }, mimetype: "image/jpeg", caption });
   } catch {
     return m.reply(format(lang.FT_ALERT, { cmd: "fetch user info" }));
